@@ -1,0 +1,17 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> Result;
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    float2 uv = id.xy / float2(256, 256);
+    // Simple striped pattern
+    float pattern = sin(uv.x * 40.0) * cos(uv.y * 40.0);
+    // Write to the texture
+    Result[id.xy] = float4(pattern, pattern, pattern, 1.0);
+}
